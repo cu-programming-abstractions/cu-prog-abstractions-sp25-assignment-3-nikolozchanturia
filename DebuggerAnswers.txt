@@ -1,14 +1,10 @@
 Q1:
-
-
-
-
+Name of the function: kFunctions
+Function was defined in: drawFlag
 Q2:
-
-
-
-
+4181
 Q3:
+81
 
 
 

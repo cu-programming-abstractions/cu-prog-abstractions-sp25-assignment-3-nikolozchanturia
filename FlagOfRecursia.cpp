@@ -130,7 +130,7 @@ int drawFlagOfRecursia(const Rectangle& bounds) {
          * the process.
          */
         int triangles = drawAcuteTriangle(center, p0, p1, i);
-        numTriangles += triangles;
+            numTriangles += triangles;
     }
 
     return numTriangles;

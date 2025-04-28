@@ -1,18 +1,56 @@
 #include "MountainsOfRecursia.h"
+#include "random.h"
+#include "error.h"
+#include "vector.h"
 using namespace std;
 
 Vector<Point> makeMountainRange(const Point& left,
                                 const Point& right,
                                 int amplitude,
                                 double decayRate) {
-    /* TODO: Delete this comment and the next few lines, then implement this
-     * function.
-     */
-    (void) left;
-    (void) right;
-    (void) amplitude;
-    (void) decayRate;
-    return { };
+
+    if (left.x > right.x) {
+        error("Left point is to the right of right point");
+    }
+    if (amplitude < 0) {
+        error("Amplitude cannot be negative");
+    }
+    if (decayRate < 0 || decayRate > 1) {
+        error("Decay rate must be between 0 and 1");
+    }
+
+    if (right.x - left.x <= 3) {
+        Vector<Point> baseCase;
+        baseCase.add(left);
+        baseCase.add(right);
+        return baseCase;
+    }
+
+    int midX = (left.x + right.x) / 2;
+    int midY = (left.y + right.y) / 2;
+
+    int offset = randomInteger(-amplitude, amplitude);
+    midY += offset;
+
+    Point midPoint;
+    midPoint.x = midX;
+    midPoint.y = midY;
+
+    int newAmplitude = int(amplitude * decayRate); // Must cast to int
+    Vector<Point> leftRange = makeMountainRange(left, midPoint, newAmplitude, decayRate);
+    Vector<Point> rightRange = makeMountainRange(midPoint, right, newAmplitude, decayRate);
+
+
+    Vector<Point> result;
+    for (int i = 0; i < leftRange.size() - 1; i++) {
+        result.add(leftRange[i]);
+    }
+    result.add(midPoint);
+    for (int i = 1; i < rightRange.size(); i++) {
+        result.add(rightRange[i]);
+    }
+
+    return result;
 }
 
 /* * * * * Test Cases Below This Point * * * * */
